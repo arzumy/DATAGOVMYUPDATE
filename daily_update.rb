@@ -9,8 +9,8 @@ Parse.init :application_id => ENV['PARSE_APP_ID'],
 
 parse_query = Parse::Query.new('dataset_count')
 parse_query.eq("objectId", ENV['PARSE_OBJECT_ID'])
-parse_data = parse_query.get
-stored_total = parse_data.empty? ? 0 : parse_data.first[:total]
+parse_data = parse_query.get.first
+stored_total = parse_data || parse_data[:total]
 
 result = Wombat.crawl do
   base_url "http://data.gov.my/"
@@ -21,9 +21,8 @@ end
 current_total = result['counter'].split(':').last.to_i
 
 if current_total != stored_total
-  parse_push = Parse::Object.new('dataset_count')
-  parse_push['total'] = current_total
-  parse_push.save
+  parse_data['total'] = current_total
+  parse_data.save
 
   Hey.api_token = ENV['YO_TOKEN']
   Hey::Yo.all
