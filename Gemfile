@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
 
 gem 'wombat'
-gem 'yo-ruby'
+gem 'hey'
+gem 'parse-ruby-client'
