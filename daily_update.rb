@@ -10,7 +10,7 @@ Parse.init :application_id => ENV['PARSE_APP_ID'],
 parse_query = Parse::Query.new('dataset_count')
 parse_query.eq("objectId", ENV['PARSE_OBJECT_ID'])
 parse_data = parse_query.get.first
-stored_total = parse_data ? 0 : parse_data[:total] 
+stored_total = parse_data ? parse_data["total"] : 0
 
 result = Wombat.crawl do
   base_url "http://data.gov.my/"
